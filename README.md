@@ -1,6 +1,6 @@
 # Peluqueria canina 
 
-![alt text](image.png)
+![alt text](src/main/java/peluqueria/img/image.png)
 
 
 Proyecto realizado en java 
