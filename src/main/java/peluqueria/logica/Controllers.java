@@ -1,6 +1,7 @@
 
 package peluqueria.logica;
 
+import java.util.List;
 import peluqueria.persistencia.ControllerPersistencia;
 
 
@@ -36,6 +37,14 @@ public class Controllers {
          controlPersistencia.guardar(duenio,mascota);
         
         
+    }
+
+    public List<Mascota> traerMacota() {
+        
+        return controlPersistencia.traerMascotas();
+        
+
+
     }
     
     

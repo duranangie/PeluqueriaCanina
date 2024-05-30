@@ -1,6 +1,7 @@
 
 package peluqueria.persistencia;
 
+import java.util.List;
 import peluqueria.logica.Duenio;
 import peluqueria.logica.Mascota;
 
@@ -15,6 +16,11 @@ public class ControllerPersistencia {
         djc.create(duenio);
         mjc.create(mascota);
         
+    }
+
+    public List<Mascota> traerMascotas() {
+        return mjc.findMascotaEntities();
+
     }
     
     

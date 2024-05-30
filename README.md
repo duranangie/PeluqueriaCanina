@@ -30,3 +30,8 @@ admn de entidades
 
 
 Carga de datos en java con interfaz grafica
+
+Mostrar datos en la tabla
+
+
+``` findMascotaEntities ``
