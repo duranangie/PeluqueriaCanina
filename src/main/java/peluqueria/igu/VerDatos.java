@@ -1,6 +1,8 @@
 package peluqueria.igu;
 
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import peluqueria.logica.Controllers;
 import peluqueria.logica.Mascota;
@@ -8,6 +10,7 @@ import peluqueria.logica.Mascota;
 public class VerDatos extends javax.swing.JFrame {
 
     Controllers controlador = null;
+
     public VerDatos() {
         controlador = new Controllers();
         initComponents();
@@ -85,6 +88,11 @@ public class VerDatos extends javax.swing.JFrame {
         });
 
         BtnEditar.setText("Editar");
+        BtnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,16 +146,70 @@ public class VerDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
-        // TODO add your handling code here:
+        //controlar que la tabla no este basio y que se seleccione una mascota
+        if (tbMascota.getRowCount() > 0) {
+            if (tbMascota.getSelectedRow() != -1) {
+                int num_cliente = Integer.parseInt(String.valueOf(tbMascota.getValueAt(tbMascota.getSelectedRow(), 0)));
+                //llamo a borrar
+                controlador.borrarMascota(num_cliente);
+                //aviso de que se borro correctamente
+                MostrarMensaje("mascota eliminar correctamente", "info", "borrado de mascota");
+                cargarTabla();
+
+            } else {
+                MostrarMensaje("no se elimo ninguna mascota", "error", "error a la eliminacion");
+            }
+        } else {
+            MostrarMensaje("no se elimo ninguna mascota", "error", "error a la eliminacion");
+        }
+
+
     }//GEN-LAST:event_BtnEliminarActionPerformed
 
+    public void MostrarMensaje(String mensaje, String tipo, String titulo) {
+
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if (tipo.equals("info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+
+    }
+
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-     
-          
+
         cargarTabla();
-        
-        
+
+
     }//GEN-LAST:event_formWindowOpened
+
+    private void BtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditarActionPerformed
+
+        if (tbMascota.getRowCount() > 0) {
+            if (tbMascota.getSelectedRow() != -1) {
+                int num_cliente = Integer.parseInt(String.valueOf(tbMascota.getValueAt(tbMascota.getSelectedRow(), 0)));
+                
+                EditarDatos pantallaMod = new EditarDatos(num_cliente);
+                pantallaMod.setVisible(true);
+                pantallaMod.setLocationRelativeTo(null);
+                
+                this.dispose();
+
+                
+            } else {
+                MostrarMensaje("no se edito ninguna mascota", "error", "error a la eliminacion");
+            }
+        } else {
+            MostrarMensaje("no se edito ninguna mascota", "error", "error a la eliminacion");
+        }
+
+
+    }//GEN-LAST:event_BtnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -162,41 +224,35 @@ public class VerDatos extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla() {
-           //definir modelo de tablas
-           
-           DefaultTableModel tabla = new DefaultTableModel(){
-               
-               @Override
-               public boolean isCellEditable(int row , int column){
-                   return false;
-               }
-               
-               
-           };
-    
-           
-           //establecer nombre de columnas 
-           
-           String titulos[]={"num_Macota","nombre","color","raza","alergico","Aespec","dueño","cel" };
-           tabla.setColumnIdentifiers(titulos);
-           
-           //cargar los datos de la base de datos
-           
-           List<Mascota> listaMascota = controlador.traerMacota(    );
-           
-           //recorrer lista y mostrar los elementos de la tabla
-           if(listaMascota!=null){
-               for(Mascota masco: listaMascota){
-                   Object[] objeto = {masco.getNum_cliente(),masco.getNombreMascota(),masco.getColor(),masco.getRaza(),masco.getAlergico(),masco.getAtencion_especial(),masco.getDuenio().getNombre(),masco.getDuenio().getCelDuenio()};
-               
-                   tabla.addRow(objeto);
-               
-               }
-           }
-           
-           
-           tbMascota.setModel(tabla);
+        //definir modelo de tablas
+
+        DefaultTableModel tabla = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+
+        };
+
+        //establecer nombre de columnas 
+        String titulos[] = {"num_Macota", "nombre", "color", "raza", "alergico", "Aespec", "dueño", "cel"};
+        tabla.setColumnIdentifiers(titulos);
+
+        //cargar los datos de la base de datos
+        List<Mascota> listaMascota = controlador.traerMacota();
+
+        //recorrer lista y mostrar los elementos de la tabla
+        if (listaMascota != null) {
+            for (Mascota masco : listaMascota) {
+                Object[] objeto = {masco.getNum_cliente(), masco.getNombreMascota(), masco.getColor(), masco.getRaza(), masco.getAlergico(), masco.getAtencion_especial(), masco.getDuenio().getNombre(), masco.getDuenio().getCelDuenio()};
+
+                tabla.addRow(objeto);
+
+            }
+        }
+
+        tbMascota.setModel(tabla);
 
     }
 }
-

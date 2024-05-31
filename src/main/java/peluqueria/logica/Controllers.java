@@ -46,6 +46,46 @@ public class Controllers {
 
 
     }
+
+    public void borrarMascota(int num_cliente) {
+        controlPersistencia.borrarMascota(num_cliente);
+
+    }
+
+    public Mascota mostrarMascota(int num_cliente) {
+       return controlPersistencia.buscarMascotas(num_cliente);
+
+    }
+
+    public void modificarMascota(Mascota masco, String nombreMascota, String raza, String color, String observaciones, String alergico, String atencionEspecial, String nombreDuenio, String celDuenio) {
+            
+            masco.setNombreMascota(nombreMascota);
+            masco.setRaza(raza);
+            masco.setColor(color);
+            masco.setAlergico(alergico);
+            masco.setObservaciones(observaciones);
+            masco.setAtencion_especial(atencionEspecial);
+            
+            //modificar mascota
+            controlPersistencia.modificarMascota(masco);
+            
+            Duenio dueno = this.buscarDuenio(masco.getDuenio().getId_duenio());
+            dueno.setNombre(nombreDuenio);
+            dueno.setCelDuenio(celDuenio);
+            //llamar duenio
+            
+            this.modificarDuenio(dueno);
+        
+    }
+
+    private Duenio buscarDuenio(int id_duenio) {
+        return controlPersistencia.traerDuenio(id_duenio);
+
+    }
+
+    private void modificarDuenio(Duenio dueno) {
+            controlPersistencia.modificarDuenio(dueno);
+    }
     
     
 }

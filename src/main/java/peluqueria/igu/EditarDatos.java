@@ -3,15 +3,19 @@ package peluqueria.igu;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import peluqueria.logica.Controllers;
+import peluqueria.logica.Mascota;
 
-public class CargarDatos extends javax.swing.JFrame {
+public class EditarDatos extends javax.swing.JFrame {
 
-    Controllers controladora = new Controllers();
-
-    public CargarDatos() {
+    Controllers controladora = null;
+    int num_cliente;
+    Mascota masco;
+    public EditarDatos(int num_cliente) {
+        controladora = new Controllers();
+        // this.num_cliente = num_cliente;
         initComponents();
+        cargarDatos(num_cliente);
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -44,7 +48,7 @@ public class CargarDatos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jLabel3.setText("Cargar datos");
+        jLabel3.setText("Editar Datos");
 
         nombre.setText("Nombre : ");
 
@@ -150,9 +154,9 @@ public class CargarDatos extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/peluqueria/img/perro.jpg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perro.jpg"))); // NOI18N
 
-        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/peluqueria/img/3792081-broom-halloween-magic-witch_109049.png"))); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/3792081-broom-halloween-magic-witch_109049.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,8 +164,8 @@ public class CargarDatos extends javax.swing.JFrame {
             }
         });
 
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/peluqueria/img/Save_37110.png"))); // NOI18N
-        btnGuardar.setText("Guardar");
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Save_37110.png"))); // NOI18N
+        btnGuardar.setText("Guardar Cambios");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -179,14 +183,17 @@ public class CargarDatos extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLimpiar)))
-                .addGap(31, 31, 31))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(btnLimpiar)))))
+                .addGap(33, 33, 33))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(217, 217, 217)
                 .addComponent(jLabel3)
-                .addGap(200, 200, 200))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,14 +204,14 @@ public class CargarDatos extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                            .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -222,30 +229,49 @@ public class CargarDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        //BOTON GUARDAR DATOS
+      //  BOTON GUARDAR DATOS
 
         String nombreMascota = txtNombreMascota.getText();
         String raza = txtRaza.getText();
         String color = txtColor.getText();
-        String nombreDuenio = txtNombreDueño.getText();
-        String celDuenio = txtCelDueño.getText();
         String observaciones = txtObservaaciones.getText();
         String alergico = (String) cmbAlergico.getSelectedItem();
         String atencionEspecial = (String) cmbAtencioEspecial.getSelectedItem();
-        controladora.guardar(nombreMascota,raza,color,nombreDuenio,celDuenio,observaciones,alergico,atencionEspecial);
 
+         
+        
+        
+        String nombreDuenio = txtNombreDueño.getText();
+        String celDuenio = txtCelDueño.getText();
+       controladora.modificarMascota(masco, nombreMascota,raza,color,observaciones,alergico,atencionEspecial,nombreDuenio,celDuenio);
+        
+           
+        MostrarMensaje("se edito correctamente", "info", "edicion Correcta");
+        
+        VerDatos pantalla = new VerDatos();
+        pantalla.setVisible(true);
+        pantalla.setLocationRelativeTo(null);
+        
+        this.dispose();
+        
+       
+           
+   
+           
+    }//GEN-LAST:event_btnGuardarActionPerformed
+  public void MostrarMensaje(String mensaje, String tipo, String titulo) {
 
-        
-        //cartel de guardado exitoso
-        
-        JOptionPane optionPane = new JOptionPane("Se guardo correctamente");
-        optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-        JDialog dialog = optionPane.createDialog("Guardado exitoso");
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        if (tipo.equals("info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+        JDialog dialog = optionPane.createDialog(titulo);
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
-        
-    }//GEN-LAST:event_btnGuardarActionPerformed
 
+    }
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtNombreMascota.setText("");
         txtRaza.setText("");
@@ -283,4 +309,36 @@ public class CargarDatos extends javax.swing.JFrame {
     private javax.swing.JTextArea txtObservaaciones;
     private javax.swing.JTextField txtRaza;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarDatos(int num_cliente) {
+
+        this.masco = controladora.mostrarMascota(num_cliente);
+
+        txtNombreMascota.setText(masco.getNombreMascota());
+        txtRaza.setText(masco.getRaza());
+        txtColor.setText(masco.getColor());
+        txtNombreDueño.setText(masco.getDuenio().getNombre());
+        txtCelDueño.setText(masco.getDuenio().getCelDuenio());
+        txtObservaaciones.setText(masco.getObservaciones());
+        if (masco.getAlergico().equals("Si")) {
+            cmbAlergico.setSelectedIndex(1);
+        } else if (masco.getAlergico().equals("No")) {
+
+            cmbAlergico.setSelectedIndex(2);
+        } else {
+            cmbAlergico.setSelectedIndex(0);
+        }
+    
+
+        if (masco.getAtencion_especial().equals("Si")) {
+            cmbAtencioEspecial.setSelectedIndex(1);
+        } else if (masco.getAtencion_especial().equals("No")) {
+            cmbAtencioEspecial.setSelectedIndex(2);
+        } else {
+            cmbAtencioEspecial.setSelectedIndex(0);
+
+        }
+
+}
+
 }
